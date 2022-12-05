@@ -34,8 +34,9 @@ function createSquares(numberOfSquares = 16) {
 }
 
 function sketch(element) {
+  let randomColor = Math.floor(Math.random()*16777215).toString(16);
   element.addEventListener('mouseenter', (e) => {
-    element.classList.add('square-hover');
+    element.style.backgroundColor = `#${randomColor}`
   });
 }
 

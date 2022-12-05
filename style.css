@@ -31,7 +31,3 @@ h2 {
   grid-template-columns: repeat(var(--grid-cols), 1fr);
   border: 1px solid black;
 }
-
-.square-hover {
-  background-color: black;
-}
