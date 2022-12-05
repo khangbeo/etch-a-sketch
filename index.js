@@ -36,6 +36,7 @@ const setNewMode = (newMode) => {
     rainbowBtn.classList.remove('active')
     eraserBtn.classList.remove('active')
   }
+  
   if (newMode === 'rainbow') {
     colorBtn.classList.remove('active')
     rainbowBtn.classList.add('active')
@@ -92,6 +93,8 @@ function clearGrid() {
 
 function load() {
   colorPicker.value = currentColor;
+  gridRange.value = currentSize
+  gridRangeOutput.innerHTML = `${currentSize} x ${currentSize}`
   createGrid(currentSize);
 }
 
