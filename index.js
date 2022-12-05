@@ -2,7 +2,7 @@ import './style.css';
 
 // convert to react
 // these are state variables since they change
-let currentColor = '#333333';
+let currentColor = generateRandomColor();
 let currentMode = 'color';
 let currentSize = 16;
 
@@ -27,8 +27,28 @@ eraserBtn.addEventListener('click', () => setNewMode('eraser'));
 clearBtn.addEventListener('click', () => clearGrid());
 
 // these are used in jsx event handlers
-const setNewColor = (newColor) => (currentColor = newColor);
-const setNewMode = (newMode) => (currentMode = newMode);
+const setNewColor = (newColor) => {
+  currentColor = newColor;
+};
+const setNewMode = (newMode) => {
+  if (newMode === 'color') {
+    colorBtn.classList.add('active')
+    rainbowBtn.classList.remove('active')
+    eraserBtn.classList.remove('active')
+  }
+  if (newMode === 'rainbow') {
+    colorBtn.classList.remove('active')
+    rainbowBtn.classList.add('active')
+    eraserBtn.classList.remove('active')
+  }
+
+  if (newMode === 'eraser') {
+    eraserBtn.classList.add('active')
+    colorBtn.classList.remove('active')
+    rainbowBtn.classList.remove('active')
+  }
+  currentMode = newMode;
+};
 const setNewSize = (newSize) => {
   gridRangeOutput.innerHTML = `${newSize} x ${newSize}`;
   clearGrid();
@@ -52,7 +72,7 @@ function sketch({ type, target }) {
   let modes = {
     color: currentColor,
     rainbow: generateRandomColor(),
-    eraser: erase(target),
+    eraser: '',
   };
   target.style.backgroundColor = modes[currentMode];
 }
@@ -64,18 +84,14 @@ function generateRandomColor() {
     .toUpperCase()}`;
 }
 
-function erase(cell) {
-  cell.style.removeProperty('background-color')
-}
-
 function clearGrid() {
   // loop, checks for first child of container and remove until there's no children
-  while(container.firstChild && container.removeChild(container.firstChild));
+  while (container.firstChild && container.removeChild(container.firstChild));
   createGrid(currentSize);
 }
 
 function load() {
-  colorPicker.value = currentColor
+  colorPicker.value = currentColor;
   createGrid(currentSize);
 }
 

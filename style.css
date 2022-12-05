@@ -1,40 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html {
-  background-color: rgb(255, 171, 216);
-}
-
-h1,
-h2 {
-  font-family: Arial;
-}
-
-button {
-  background-color: #ffffff;
-  padding: 10px;
-  font-size: 15px;
-  border-style: none;
-  border-radius: 25px;
-  margin: 0 5px 0 5px;
-}
-
-button:hover {
-  background-color: #616161;
-  color: #fefefe;
-  cursor: pointer;
-}
-
-button:active {
-  background-color: #292929;
-  color: #fefefe;
-}
-
-#app {
+body {
+  background-color:#a12038;
+  min-height: 100vh;
+  color:#fefefe;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
-  margin: auto;
   justify-content: center;
   align-items: center;
 }
@@ -54,5 +32,61 @@ button:active {
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
   background-color: #fefefe;
-  border: 2px solid #333333;
+  box-shadow: 0px 12px 31px 0px rgba(0, 0, 0, 0.3);
+}
+
+.btn {
+  background-color: #fd3459;
+  color: #fefefe;
+  padding: 12px;
+  font-size: 18px;
+  border-style: none;
+  border-radius: 25px;
+  margin: 0 10px 0 10px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #860f31;
+  cursor: pointer;
+}
+
+button:active {
+  background-color: #292929;
+}
+
+.btn-group {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+span {
+  font-size: 18px;
+}
+
+#color-picker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 100px;
+  margin: 0 15px 0 15px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+#color-picker::-webkit-color-swatch {
+  border-radius: 50%;
+  border: 3px solid #000;
+}
+
+#color-picker::-moz-color-swatch {
+  border-radius: 50%;
+  order: 3px solid #000;
+}
+
+.active {
+  background-color: #860f31;
 }
