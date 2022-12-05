@@ -1,9 +1,4 @@
-// Import stylesheets
 import './style.css';
-
-// Write Javascript code!
-// const appDiv = document.getElementById('app');
-// appDiv.innerHTML = `<h1>JS Starter</h1>`;
 
 // convert to react
 // these are state variables since they change
@@ -11,54 +6,43 @@ let currentColor = '#333333';
 let currentMode = 'color';
 let currentSize = 16;
 
-let isDown = false;
-document.body.onmousedown = () => (isDown = true);
-document.body.onmouseup = () => (isDown = false);
-
-const container = document.getElementById('container');
-const resetBtn = document.querySelector('#reset');
+const container = document.querySelector('#container');
 const colorPicker = document.querySelector('#color-picker');
+const gridRange = document.querySelector('#grid-range');
+const gridRangeOutput = document.querySelector('#grid-range-output');
 const colorBtn = document.querySelector('#color');
 const rainbowBtn = document.querySelector('#rainbow');
 const eraserBtn = document.querySelector('#eraser');
 const clearBtn = document.querySelector('#clear');
 
-colorPicker.addEventListener('change', (e) => setNewColor(e.target.value));
+let isDown = false;
+container.onmousedown = () => (isDown = true);
+container.onmouseup = () => (isDown = false);
+
+colorPicker.addEventListener('input', (e) => setNewColor(e.target.value));
+gridRange.addEventListener('input', (e) => setNewSize(e.target.value));
 colorBtn.addEventListener('click', () => setNewMode('color'));
 rainbowBtn.addEventListener('click', () => setNewMode('rainbow'));
 eraserBtn.addEventListener('click', () => setNewMode('eraser'));
 clearBtn.addEventListener('click', () => clearGrid());
-resetBtn.addEventListener('click', () => getUserInput());
 
 // these are used in jsx event handlers
 const setNewColor = (newColor) => (currentColor = newColor);
 const setNewMode = (newMode) => (currentMode = newMode);
-const setNewSize = (newSize) => (currentSize = newSize);
-const getUserInput = () => {
-  let userInput = Number.parseInt(prompt(), 10);
-  try {
-    if (userInput <= 100) {
-      setNewSize(userInput);
-      clearGrid();
-    } else if (!userInput) {
-      throw new Error("You can't have an empty input!");
-    } else {
-      throw new Error("You can't have more than 100 squares!");
-    }
-  } catch (e) {
-    console.error(e)
-    alert(e);
-  }
+const setNewSize = (newSize) => {
+  gridRangeOutput.innerHTML = `${newSize} x ${newSize}`;
+  clearGrid();
+  createGrid(newSize);
 };
 
-function createGrid(numberOfSquares = 16) {
-  container.style.setProperty('--grid-rows', numberOfSquares);
-  container.style.setProperty('--grid-cols', numberOfSquares);
-  for (let i = 0; i < numberOfSquares ** 2; i++) {
-    const squareDiv = document.createElement('div');
-    squareDiv.addEventListener('mouseover', sketch);
-    squareDiv.addEventListener('mousedown', sketch);
-    container.appendChild(squareDiv);
+function createGrid(cells = 16) {
+  container.style.setProperty('--grid-rows', cells);
+  container.style.setProperty('--grid-cols', cells);
+  for (let i = 0; i < cells ** 2; i++) {
+    const cell = document.createElement('div');
+    cell.addEventListener('mouseover', sketch);
+    cell.addEventListener('mousedown', sketch);
+    container.appendChild(cell);
   }
 }
 
@@ -68,25 +52,31 @@ function sketch({ type, target }) {
   let modes = {
     color: currentColor,
     rainbow: generateRandomColor(),
-    eraser: '#fefefe',
+    eraser: erase(target),
   };
   target.style.backgroundColor = modes[currentMode];
 }
 
 function generateRandomColor() {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, '0')
+    .toUpperCase()}`;
+}
+
+function erase(cell) {
+  cell.style.removeProperty('background-color')
 }
 
 function clearGrid() {
-  container.innerHTML = '';
+  // loop, checks for first child of container and remove until there's no children
+  while(container.firstChild && container.removeChild(container.firstChild));
   createGrid(currentSize);
 }
 
 function load() {
+  colorPicker.value = currentColor
   createGrid(currentSize);
 }
 
-load()
-
-
-
+load();

@@ -2,9 +2,33 @@
   box-sizing: border-box;
 }
 
+html {
+  background-color: rgb(255, 171, 216);
+}
+
 h1,
 h2 {
-  font-family: Lato;
+  font-family: Arial;
+}
+
+button {
+  background-color: #ffffff;
+  padding: 10px;
+  font-size: 15px;
+  border-style: none;
+  border-radius: 25px;
+  margin: 0 5px 0 5px;
+}
+
+button:hover {
+  background-color: #616161;
+  color: #fefefe;
+  cursor: pointer;
+}
+
+button:active {
+  background-color: #292929;
+  color: #fefefe;
 }
 
 #app {
@@ -25,9 +49,10 @@ h2 {
 #container {
   display: grid;
   margin: 20px;
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
-  border: 1px solid black;
+  background-color: #fefefe;
+  border: 2px solid #333333;
 }
