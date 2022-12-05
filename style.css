@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-family: Lato;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+#header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+#container {
+  display: grid;
+  margin: 20px;
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  border: 1px solid black;
+}
+
+.square {
+  height: 15px;
+  width: 15px;
+}
+
+.square-hover {
+  background-color: black;
+}
