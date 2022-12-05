@@ -7,7 +7,6 @@ import './style.css';
 
 const container = document.getElementById('container');
 const resetButton = document.querySelector('#reset');
-const clearButton = document.querySelector('#clear');
 
 resetButton.addEventListener('click', (e) => {
   let userInput = Number.parseInt(prompt(), 10);
@@ -27,9 +26,8 @@ resetButton.addEventListener('click', (e) => {
 function createSquares(numberOfSquares = 16) {
   container.style.setProperty('--grid-rows', numberOfSquares);
   container.style.setProperty('--grid-cols', numberOfSquares);
-  for (let i = 0; i < numberOfSquares**2; i++) {
+  for (let i = 0; i < numberOfSquares ** 2; i++) {
     const squareDiv = document.createElement('div');
-    squareDiv.classList.add('square');
     container.appendChild(squareDiv);
     sketch(squareDiv);
   }
@@ -47,4 +45,3 @@ function reset(userInput) {
   container.innerHTML = '';
   createSquares(userInput);
 }
-
