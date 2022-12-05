@@ -4,16 +4,21 @@ import './style.css';
 // Write Javascript code!
 // const appDiv = document.getElementById('app');
 // appDiv.innerHTML = `<h1>JS Starter</h1>`;
+
+// convert to react
+// these are state variables since they change 
 let currentColor = '333333';
 let currentMode = 'black';
 let currentSize = 16;
 
+// these are used in jsx event handlers
 const setNewMode = (newMode) => (currentMode = newMode);
 const setNewSize = (newSize) => (currentSize = newSize);
 const getUserInput = () => {
   let userInput = Number.parseInt(prompt(), 10);
   try {
     if (userInput <= 100) {
+      setNewSize(userInput)
       reset(userInput);
     } else if (!userInput) {
       throw new Error("You can't have an empty input!");
@@ -23,7 +28,7 @@ const getUserInput = () => {
   } catch (e) {
     alert(e);
   }
-}
+};
 
 const container = document.getElementById('container');
 const resetBtn = document.querySelector('#reset');
@@ -53,21 +58,19 @@ function createGrid(numberOfSquares = 16) {
   }
 }
 
-function sketch(e) {
-  if (e.type === 'mouseover' && !mouseDown) return;
+function sketch({type, target}) {
+  if (type === 'mouseover' && !mouseDown) return;
   let randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
-  let modeObj = {
+  let modes = {
     black: `#${currentColor}`,
     rainbow: `#${randomColor}`,
     eraser: `#fefefe`,
   };
-
-  e.target.style.backgroundColor = modeObj[currentMode];
+  target.style.backgroundColor = modes[currentMode];
 }
 
-function reset(userInput) {
-  setNewSize(userInput);
+function reset() {
   clearGrid();
 }
 
