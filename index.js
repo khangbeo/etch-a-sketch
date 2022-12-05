@@ -7,8 +7,8 @@ import './style.css';
 
 // convert to react
 // these are state variables since they change
-let currentColor = '333333';
-let currentMode = 'black';
+let currentColor = '#333333';
+let currentMode = 'color';
 let currentSize = 16;
 
 let isDown = false;
@@ -17,18 +17,21 @@ document.body.onmouseup = () => (isDown = false);
 
 const container = document.getElementById('container');
 const resetBtn = document.querySelector('#reset');
-const blackBtn = document.querySelector('#black');
+const colorPicker = document.querySelector('#color-picker');
+const colorBtn = document.querySelector('#color');
 const rainbowBtn = document.querySelector('#rainbow');
 const eraserBtn = document.querySelector('#eraser');
 const clearBtn = document.querySelector('#clear');
 
-blackBtn.addEventListener('click', () => setNewMode('black'));
+colorPicker.addEventListener('change', (e) => setNewColor(e.target.value));
+colorBtn.addEventListener('click', () => setNewMode('color'));
 rainbowBtn.addEventListener('click', () => setNewMode('rainbow'));
 eraserBtn.addEventListener('click', () => setNewMode('eraser'));
 clearBtn.addEventListener('click', () => clearGrid());
 resetBtn.addEventListener('click', () => getUserInput());
 
 // these are used in jsx event handlers
+const setNewColor = (newColor) => (currentColor = newColor);
 const setNewMode = (newMode) => (currentMode = newMode);
 const setNewSize = (newSize) => (currentSize = newSize);
 const getUserInput = () => {
@@ -36,13 +39,14 @@ const getUserInput = () => {
   try {
     if (userInput <= 100) {
       setNewSize(userInput);
-      reset(userInput);
+      clearGrid();
     } else if (!userInput) {
       throw new Error("You can't have an empty input!");
     } else {
       throw new Error("You can't have more than 100 squares!");
     }
   } catch (e) {
+    console.error(e)
     alert(e);
   }
 };
@@ -60,18 +64,17 @@ function createGrid(numberOfSquares = 16) {
 
 function sketch({ type, target }) {
   if (type === 'mouseover' && !isDown) return;
-  let randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
   let modes = {
-    black: `#${currentColor}`,
-    rainbow: `#${randomColor}`,
-    eraser: `#fefefe`,
+    color: currentColor,
+    rainbow: generateRandomColor(),
+    eraser: '#fefefe',
   };
   target.style.backgroundColor = modes[currentMode];
 }
 
-function reset() {
-  clearGrid();
+function generateRandomColor() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
 }
 
 function clearGrid() {
@@ -79,4 +82,11 @@ function clearGrid() {
   createGrid(currentSize);
 }
 
-createGrid(currentSize);
+function load() {
+  createGrid(currentSize);
+}
+
+load()
+
+
+
