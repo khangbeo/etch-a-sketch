@@ -10,23 +10,6 @@ let currentSize = 16;
 
 const setNewMode = (newMode) => (currentMode = newMode);
 const setNewSize = (newSize) => (currentSize = newSize);
-
-const container = document.getElementById('container');
-const resetBtn = document.querySelector('#reset');
-const blackBtn = document.querySelector('#black');
-const rainbowBtn = document.querySelector('#rainbow');
-const eraserBtn = document.querySelector('#eraser');
-const clearBtn = document.querySelector('#clear');
-
-blackBtn.addEventListener('click', () => setNewMode('black'));
-rainbowBtn.addEventListener('click', () => setNewMode('rainbow'));
-eraserBtn.addEventListener('click', () => setNewMode('eraser'));
-clearBtn.addEventListener('click', () => clearGrid());
-
-let mouseDown = false;
-document.body.onmousedown = () => (mouseDown = true);
-document.body.onmouseup = () => (mouseDown = false);
-
 const getUserInput = () => {
   let userInput = Number.parseInt(prompt(), 10);
   try {
@@ -41,8 +24,23 @@ const getUserInput = () => {
     alert(e);
   }
 }
-resetBtn.addEventListener('click', getUserInput);
 
+const container = document.getElementById('container');
+const resetBtn = document.querySelector('#reset');
+const blackBtn = document.querySelector('#black');
+const rainbowBtn = document.querySelector('#rainbow');
+const eraserBtn = document.querySelector('#eraser');
+const clearBtn = document.querySelector('#clear');
+
+blackBtn.addEventListener('click', () => setNewMode('black'));
+rainbowBtn.addEventListener('click', () => setNewMode('rainbow'));
+eraserBtn.addEventListener('click', () => setNewMode('eraser'));
+clearBtn.addEventListener('click', () => clearGrid());
+resetBtn.addEventListener('click', () => getUserInput());
+
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 function createGrid(numberOfSquares = 16) {
   container.style.setProperty('--grid-rows', numberOfSquares);
