@@ -6,29 +6,14 @@ import './style.css';
 // appDiv.innerHTML = `<h1>JS Starter</h1>`;
 
 // convert to react
-// these are state variables since they change 
+// these are state variables since they change
 let currentColor = '333333';
 let currentMode = 'black';
 let currentSize = 16;
 
-// these are used in jsx event handlers
-const setNewMode = (newMode) => (currentMode = newMode);
-const setNewSize = (newSize) => (currentSize = newSize);
-const getUserInput = () => {
-  let userInput = Number.parseInt(prompt(), 10);
-  try {
-    if (userInput <= 100) {
-      setNewSize(userInput)
-      reset(userInput);
-    } else if (!userInput) {
-      throw new Error("You can't have an empty input!");
-    } else {
-      throw new Error("You can't have more than 100 squares!");
-    }
-  } catch (e) {
-    alert(e);
-  }
-};
+let isDown = false;
+document.body.onmousedown = () => (isDown = true);
+document.body.onmouseup = () => (isDown = false);
 
 const container = document.getElementById('container');
 const resetBtn = document.querySelector('#reset');
@@ -43,9 +28,24 @@ eraserBtn.addEventListener('click', () => setNewMode('eraser'));
 clearBtn.addEventListener('click', () => clearGrid());
 resetBtn.addEventListener('click', () => getUserInput());
 
-let mouseDown = false;
-document.body.onmousedown = () => (mouseDown = true);
-document.body.onmouseup = () => (mouseDown = false);
+// these are used in jsx event handlers
+const setNewMode = (newMode) => (currentMode = newMode);
+const setNewSize = (newSize) => (currentSize = newSize);
+const getUserInput = () => {
+  let userInput = Number.parseInt(prompt(), 10);
+  try {
+    if (userInput <= 100) {
+      setNewSize(userInput);
+      reset(userInput);
+    } else if (!userInput) {
+      throw new Error("You can't have an empty input!");
+    } else {
+      throw new Error("You can't have more than 100 squares!");
+    }
+  } catch (e) {
+    alert(e);
+  }
+};
 
 function createGrid(numberOfSquares = 16) {
   container.style.setProperty('--grid-rows', numberOfSquares);
@@ -58,8 +58,8 @@ function createGrid(numberOfSquares = 16) {
   }
 }
 
-function sketch({type, target}) {
-  if (type === 'mouseover' && !mouseDown) return;
+function sketch({ type, target }) {
+  if (type === 'mouseover' && !isDown) return;
   let randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
   let modes = {
