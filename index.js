@@ -10,9 +10,6 @@ const container = document.querySelector('#container');
 const colorPicker = document.querySelector('#color-picker');
 const gridRange = document.querySelector('#grid-range');
 const gridRangeOutput = document.querySelector('#grid-range-output');
-const colorBtn = document.querySelector('#color');
-const rainbowBtn = document.querySelector('#rainbow');
-const eraserBtn = document.querySelector('#eraser');
 const clearBtn = document.querySelector('#clear');
 
 let isDown = false;
@@ -21,35 +18,32 @@ container.onmouseup = () => (isDown = false);
 
 colorPicker.addEventListener('input', (e) => setNewColor(e.target.value));
 gridRange.addEventListener('input', (e) => setNewSize(e.target.value));
-colorBtn.addEventListener('click', () => setNewMode('color'));
-rainbowBtn.addEventListener('click', () => setNewMode('rainbow'));
-eraserBtn.addEventListener('click', () => setNewMode('eraser'));
 clearBtn.addEventListener('click', () => clearGrid());
 
-// these are used in jsx event handlers
-const setNewColor = (newColor) => {
-  currentColor = newColor;
-};
-const setNewMode = (newMode) => {
-  if (newMode === 'color') {
-    colorBtn.classList.add('active')
-    rainbowBtn.classList.remove('active')
-    eraserBtn.classList.remove('active')
-  }
-  
-  if (newMode === 'rainbow') {
-    colorBtn.classList.remove('active')
-    rainbowBtn.classList.add('active')
-    eraserBtn.classList.remove('active')
-  }
+// grabbing all buttons then removing clear button
+const allButtons = document.querySelectorAll('button');
+const modeButtons = [...allButtons].filter(
+  (button) => button.innerHTML !== 'Clear'
+);
+// looping through each, add event listener
+modeButtons.forEach((button, idx) => {
+  const mode = button.innerHTML.toLowerCase();
 
-  if (newMode === 'eraser') {
-    eraserBtn.classList.add('active')
-    colorBtn.classList.remove('active')
-    rainbowBtn.classList.remove('active')
-  }
-  currentMode = newMode;
-};
+  button.addEventListener('click', () => {
+    toggleActive(button, idx);
+    setNewMode(mode);
+  });
+});
+// handle active css state
+function toggleActive(el, index) {
+  el.classList.add('active');
+  modeButtons.forEach(
+    (item, idx) => idx !== index && item.classList.remove('active')
+  );
+}
+
+const setNewColor = (newColor) => (currentColor = newColor);
+const setNewMode = (newMode) => (currentMode = newMode);
 const setNewSize = (newSize) => {
   gridRangeOutput.innerHTML = `${newSize} x ${newSize}`;
   clearGrid();
@@ -93,8 +87,8 @@ function clearGrid() {
 
 function load() {
   colorPicker.value = currentColor;
-  gridRange.value = currentSize
-  gridRangeOutput.innerHTML = `${currentSize} x ${currentSize}`
+  gridRange.value = currentSize;
+  gridRangeOutput.innerHTML = `${currentSize} x ${currentSize}`;
   createGrid(currentSize);
 }
 
