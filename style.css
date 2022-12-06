@@ -48,12 +48,8 @@ body {
 }
 
 button:hover {
-  background-color: #860f31;
   cursor: pointer;
-}
-
-button:active {
-  transform: scale(0.9);
+  transform: scale(1.1);
 }
 
 .btn-group {

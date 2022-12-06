@@ -46,6 +46,7 @@ const setNewColor = (newColor) => (currentColor = newColor);
 const setNewMode = (newMode) => (currentMode = newMode);
 const setNewSize = (newSize) => {
   gridRangeOutput.innerHTML = `${newSize} x ${newSize}`;
+  currentSize = newSize
   clearGrid();
   createGrid(newSize);
 };
@@ -81,6 +82,7 @@ function generateRandomColor() {
 
 function clearGrid() {
   // loop, checks for first child of container and remove until there's no children
+  container.innerHTML = ''
   while (container.firstChild && container.removeChild(container.firstChild));
   createGrid(currentSize);
 }
