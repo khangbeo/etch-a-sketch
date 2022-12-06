@@ -45,10 +45,10 @@ function toggleActive(el, index) {
 const setNewColor = (newColor) => (currentColor = newColor);
 const setNewMode = (newMode) => (currentMode = newMode);
 const setNewSize = (newSize) => {
-  gridRangeOutput.innerHTML = `${newSize} x ${newSize}`;
-  currentSize = newSize
+  gridRangeOutput.textContent = `${newSize} x ${newSize}`;
+  currentSize = newSize;
   clearGrid();
-  createGrid(newSize);
+  createGrid(currentSize);
 };
 
 function createGrid(cells = 16) {
@@ -58,7 +58,7 @@ function createGrid(cells = 16) {
     const cell = document.createElement('div');
     cell.addEventListener('mouseover', sketch);
     cell.addEventListener('mousedown', sketch);
-    container.appendChild(cell);
+    container.append(cell);
   }
 }
 
@@ -82,7 +82,7 @@ function generateRandomColor() {
 
 function clearGrid() {
   // loop, checks for first child of container and remove until there's no children
-  container.innerHTML = ''
+  container.innerHTML = '';
   while (container.firstChild && container.removeChild(container.firstChild));
   createGrid(currentSize);
 }
