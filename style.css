@@ -76,12 +76,12 @@ span {
 
 #color-picker::-webkit-color-swatch {
   border-radius: 50%;
-  border: 3px solid #000;
+  border: 3px solid #fefefe;
 }
 
 #color-picker::-moz-color-swatch {
   border-radius: 50%;
-  order: 3px solid #000;
+  order: 3px solid #fefefe;
 }
 
 .active {
