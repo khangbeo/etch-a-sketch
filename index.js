@@ -26,21 +26,20 @@ const modeButtons = [...allButtons].filter(
   (button) => button.innerHTML !== 'Clear'
 );
 // looping through each, add event listener
-modeButtons.forEach((button, idx) => {
+modeButtons.forEach((button) => {
   const mode = button.innerHTML.toLowerCase();
 
-  button.addEventListener('click', () => {
-    toggleActive(button, idx);
+  button.addEventListener('click', (e) => {
+    const clickedBtn = e.currentTarget;
+    deactivateAllBtns();
     setNewMode(mode);
+    activateClickedBtn(clickedBtn);
   });
 });
-// handle active css state
-function toggleActive(el, index) {
-  el.classList.add('active');
-  modeButtons.forEach(
-    (item, idx) => idx !== index && item.classList.remove('active')
-  );
-}
+
+const deactivateAllBtns = () =>
+  modeButtons.forEach((button) => button.classList.remove('active'));
+const activateClickedBtn = (btn) => btn.classList.add('active');
 
 const setNewColor = (newColor) => (currentColor = newColor);
 const setNewMode = (newMode) => (currentMode = newMode);
