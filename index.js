@@ -84,7 +84,7 @@ function adjustGridSize(newSize) {
   const requiredTotalCells = newSize * newSize;
 
   // If newSize is greater, add more cells
-  while (currentTotalCells < requiredTotalCells) {
+  while (container.children.length < requiredTotalCells) {
     const cell = document.createElement('div');
     cell.addEventListener('mouseover', sketch);
     cell.addEventListener('mousedown', sketch);
@@ -92,7 +92,7 @@ function adjustGridSize(newSize) {
   }
 
   // If newSize is smaller, remove extra cells
-  while (currentTotalCells > requiredTotalCells) {
+  while (container.children.length > requiredTotalCells) {
     container.lastChild.remove();
   }
 
