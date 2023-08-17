@@ -19,7 +19,14 @@ function getModeButtons() {
   return [...allButtons].filter((button) => button.innerHTML !== 'Clear');
 }
 
-// Initialization
+function debounce(func, delay = 300) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
 function initialize() {
   setupEventListeners();
   loadInitialValues();
@@ -30,7 +37,10 @@ function setupEventListeners() {
   container.onmouseup = () => (isDown = false);
 
   colorPicker.addEventListener('input', (e) => updateColor(e.target.value));
-  gridRange.addEventListener('input', (e) => updateSize(e.target.value));
+  gridRange.addEventListener(
+    'input',
+    debounce((e) => updateSize(e.target.value))
+  );
   clearBtn.addEventListener('click', clearGrid);
 
   modeButtons.forEach((button) => {
@@ -52,8 +62,8 @@ function updateMode(newMode) {
 
 function updateSize(newSize) {
   gridRangeOutput.textContent = `${newSize} x ${newSize}`;
+  adjustGridSize(newSize);
   currentSize = newSize;
-  recreateGrid();
 }
 
 function deactivateAllButtons() {
@@ -64,25 +74,33 @@ function activateButton(button) {
   button.classList.add('active');
 }
 
-function recreateGrid() {
-  clearGrid();
-  createGrid(currentSize);
-}
+function adjustGridSize(newSize) {
+  const currentTotalCells = container.children.length;
+  const requiredTotalCells = newSize * newSize;
 
-function clearGrid() {
-  container.innerHTML = '';
-}
-
-function createGrid(cells = 16) {
-  container.style.setProperty('--grid-rows', cells);
-  container.style.setProperty('--grid-cols', cells);
-
-  for (let i = 0; i < cells ** 2; i++) {
+  // If newSize is greater, add more cells
+  while (container.children.length < requiredTotalCells) {
     const cell = document.createElement('div');
     cell.addEventListener('mouseover', sketch);
     cell.addEventListener('mousedown', sketch);
     container.append(cell);
   }
+
+  // If newSize is smaller, remove extra cells
+  while (container.children.length > requiredTotalCells) {
+    container.lastChild.remove();
+  }
+
+  Array.from(container.children).forEach((cell) => {
+    cell.style.backgroundColor = '';
+  });
+
+  container.style.setProperty('--grid-rows', newSize);
+  container.style.setProperty('--grid-cols', newSize);
+}
+
+function clearGrid() {
+  container.innerHTML = '';
 }
 
 function sketch({ type, target }) {
@@ -108,7 +126,7 @@ function loadInitialValues() {
   colorPicker.value = currentColor;
   gridRange.value = currentSize;
   gridRangeOutput.innerHTML = `${currentSize} x ${currentSize}`;
-  createGrid(currentSize);
+  adjustGridSize(currentSize);
 }
 
 // Load the application
