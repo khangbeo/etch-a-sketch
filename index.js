@@ -36,7 +36,7 @@ function setupEventListeners() {
   container.onmousedown = () => (isDown = true);
   container.onmouseup = () => (isDown = false);
 
-  colorPicker.addEventListener('input', (e) => updateColor(e.target.value));
+  colorPicker.addEventListener('input', handleColorPicker);
   gridRange.addEventListener(
     'input',
     debounce((e) => updateSize(e.target.value))
@@ -48,6 +48,11 @@ function setupEventListeners() {
       updateMode(this.innerHTML.toLowerCase());
     });
   });
+}
+
+function handleColorPicker(e) {
+  updateMode('color');
+  updateColor(e.target.value);
 }
 
 function updateColor(newColor) {
@@ -79,7 +84,7 @@ function adjustGridSize(newSize) {
   const requiredTotalCells = newSize * newSize;
 
   // If newSize is greater, add more cells
-  while (container.children.length < requiredTotalCells) {
+  while (currentTotalCells < requiredTotalCells) {
     const cell = document.createElement('div');
     cell.addEventListener('mouseover', sketch);
     cell.addEventListener('mousedown', sketch);
@@ -87,7 +92,7 @@ function adjustGridSize(newSize) {
   }
 
   // If newSize is smaller, remove extra cells
-  while (container.children.length > requiredTotalCells) {
+  while (currentTotalCells > requiredTotalCells) {
     container.lastChild.remove();
   }
 
