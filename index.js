@@ -19,7 +19,7 @@ function getModeButtons() {
   return [...allButtons].filter((button) => button.innerHTML !== 'Clear');
 }
 
-function debounce(func, delay = 300) {
+function debounce(func, delay = 0) {
   let timeout;
   return function (...args) {
     clearTimeout(timeout);
@@ -80,7 +80,6 @@ function activateButton(button) {
 }
 
 function adjustGridSize(newSize) {
-  const currentTotalCells = container.children.length;
   const requiredTotalCells = newSize * newSize;
 
   // If newSize is greater, add more cells
