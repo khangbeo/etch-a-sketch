@@ -33,7 +33,10 @@ function initialize() {
 }
 
 function setupEventListeners() {
-  container.onmousedown = () => (isDown = true);
+  container.onmousedown = (e) => {
+    e.preventDefault();
+    isDown = true;
+  };
   container.onmouseup = () => (isDown = false);
 
   colorPicker.addEventListener('input', handleColorPicker);
@@ -105,6 +108,8 @@ function adjustGridSize(newSize) {
 
 function clearGrid() {
   container.innerHTML = '';
+  adjustGridSize(currentSize);
+  deactivateAllButtons();
 }
 
 function sketch({ type, target }) {
